@@ -3,6 +3,7 @@ import './styles.scss';
 import './App.css';
 
 const attacks = ['rock', 'paper', 'scissor']
+let battleTimeout
 
 function getRandomInt(max) {
   return Math.floor(Math.random() * max);
@@ -13,71 +14,113 @@ function App() {
   const [outCome, setOutcome] = useState('')
   const [humanAttack, setHumanAttack] = useState('')
   const [robotAttack, setRobotAttack] = useState('')
+  const [animateScore, setAnimateScore] = useState('')
+  const [animateOutcome, setAnimateOutcome] = useState(false)
 
-  function battle(e) {
+  function handleScoreUpdate(humanScore, robotScore, winner, outcome) {
+    setAnimateScore(winner)
+    setOutcome(outcome)
+    setAnimateOutcome(true)
+
+    setTimeout(() => {
+      setScore({
+        humans: humanScore,
+        robots: robotScore
+      })
+      setAnimateOutcome(false)
+      setAnimateScore('')
+      setHumanAttack('')
+      setRobotAttack('')
+    }, 1000)
+  }
+
+  function handleBattle(e) {
     const hAttack = e.target.dataset.attack
     const rAttack = attacks[getRandomInt(3)]
-    
-    if (hAttack === rAttack) {
-      setOutcome('draw')
-    } else if (
-      (hAttack === 'rock' && rAttack !== 'paper' ) || 
-      (hAttack === 'paper' && rAttack !== 'scissor') || 
-      (hAttack === 'scissor' && rAttack !== 'rock')
-    ) {
-      setOutcome('win')
-      setScore({
-        humans: score.humans + 1,
-        robots: score.robots
-      })
-    } else {
-      setOutcome('lose')
-      setScore({
-        humans: score.humans,
-        robots: score.robots + 1
-      })
-    }
-
     setHumanAttack(hAttack)
     setRobotAttack(rAttack)
+    
+    battleTimeout = setTimeout(() => {
+      if (hAttack === rAttack) {
+        handleScoreUpdate(score.humans, score.robots, null, 'draw')      
+      } else if (
+        (hAttack === 'rock' && rAttack !== 'paper' ) || 
+        (hAttack === 'paper' && rAttack !== 'scissor') || 
+        (hAttack === 'scissor' && rAttack !== 'rock')
+      ) {
+        handleScoreUpdate(score.humans + 1, score.robots, 'humans', 'win')      
+      } else {
+        handleScoreUpdate(score.humans, score.robots  + 1, 'robots', 'loss')      
+      }
+    }, 500)
   }
 
   return (
     <div className="App">
       <div className="Scoreboard">
-        Humans: {score.humans} <br />
-        Robots: {score.robots} <br />
+        <table>
+          <thead>
+            <tr>
+              <th>Humans</th>
+              <th>Robots</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <div className={`Scoreboard__score ${animateScore === 'humans' && "Scoreboard__score--update"}`}>
+                  <div className="Scoreboard__next">
+                    {score.humans + 1}
+                  </div>
+                  <div className="Scoreboard__current">
+                    {score.humans}
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div className={`Scoreboard__score ${animateScore === 'robots' && "Scoreboard__score--update"}`}>
+                  <div className="Scoreboard__next">
+                    {score.robots + 1}
+                  </div>
+                  <div className="Scoreboard__current">
+                    {score.robots}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
 
       <div className="Gameboard">
         <div className={`Player Player--is-human ${humanAttack && "Player--chose-" + humanAttack}`}>
-          <div className="Player__avatar"></div>
+          <div className="Player__avatar">&#128512;</div>
           <ul className="Player__attacks" >
             <li className="Player__attack Player__attack--is-rock">
-              <button onClick={battle} data-attack="rock">Rock</button>
+              <button onClick={handleBattle} data-attack="rock">&#9994;</button>
             </li>
             <li className="Player__attack Player__attack--is-paper">
-              <button onClick={battle} data-attack="paper">Paper</button>
+              <button onClick={handleBattle} data-attack="paper">&#9995;</button>
             </li>
             <li className="Player__attack Player__attack--is-scissor">
-              <button onClick={battle} data-attack="scissor">Scissor</button>
+              <button onClick={handleBattle} data-attack="scissor">&#9996;</button>
             </li>
           </ul>
         </div>
 
-        <div className="Outcome">Outcome: {outCome}</div>
+        <div className={`Outcome  ${animateOutcome && "Outcome--show"}`}>{outCome} &#128165;</div>
         
         <div className={`Player Player--is-robot ${robotAttack && "Player--chose-" + robotAttack}`}>
-          <div className="Player__avatar"></div>
+          <div className="Player__avatar">&#129302;</div>
           <ul className="Player__attacks">
             <li className="Player__attack Player__attack--is-rock">
-              <span>Rock</span>
+              <span>&#9994;</span>
             </li>
             <li className="Player__attack Player__attack--is-paper">
-              <span>Paper</span>
+              <span>&#9995;</span>
             </li>
             <li className="Player__attack Player__attack--is-scissor">
-              <span>Scissor</span>
+              <span>&#9996;</span>
             </li>
           </ul>
         </div>

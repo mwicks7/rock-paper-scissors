@@ -1,13 +1,129 @@
+$font-size: 18px;
+$line-height: 24px;
+
+body {
+  font-size: $font-size;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
 }
 
-.Scoreboard {}
+.Scoreboard {
+  margin-bottom: 25px;
+}
 
-.Gameboard {}
+  .Scoreboard table {
+    margin: 0 auto;
+  }
 
-.Player {}
+    .Scoreboard__score {
+      overflow: hidden;
+      height: $font-size;
+      width: $font-size;
+      position: relative;
+    }
 
-.Outcome {}
+      .Scoreboard__next {
+        position: absolute;
+        bottom: $font-size;
+        visibility: hidden;
+        
+        .Scoreboard__score--update & {
+          transition: bottom .2s linear;
+          visibility: visible;
+          bottom: 0;
+        }
+      }
+
+      .Scoreboard__current {
+        position: absolute;
+        bottom: 0;
+        
+        .Scoreboard__score--update & {
+          transition: bottom .2s;
+          bottom: -$font-size;
+        }
+      }
+
+.Gameboard {
+  display: flex;
+  flex-direction: row;
+  width: 300px;
+  margin: 0 auto;
+}
+
+.Player {
+  width: 100px;
+}
+
+  .Player__avatar {
+
+  }
+
+  .Player__attacks {
+    position: relative;
+  }
+    
+    .Player__attack {
+      position: absolute;
+
+      &--is-rock {
+        top: 0;
+      }
+
+      &--is-paper {
+        top: $line-height;
+      }
+
+      &--is-scissor {
+        top: $line-height * 2;
+      }
+      .Player--is-human & {
+        left: 35px;
+        transition: all .20s ease-in-out;  
+      }
+
+      .Player--is-robot & {
+        right: 40px;
+        transition: all .20s ease-in-out;
+      }
+    }
+
+      .Player--is-human.Player--chose-rock .Player__attack--is-rock,
+      .Player--is-human.Player--chose-paper .Player__attack--is-paper,
+      .Player--is-human.Player--chose-scissor .Player__attack--is-scissor {
+        left: 70px;  
+        top: $line-height;
+      }
+
+      .Player--is-robot.Player--chose-rock .Player__attack--is-rock,
+      .Player--is-robot.Player--chose-paper .Player__attack--is-paper,
+      .Player--is-robot.Player--chose-scissor .Player__attack--is-scissor {
+        right: 75px;  
+        top: $line-height;
+      }
+
+  .player--chose-rock,
+  .player--chose-paper,
+  .player--chose-scissor {
+    position: absolute;
+    transition: position;
+  }
+
+.Outcome {
+  opacity: 0;
+  width: 50px;
+  transition: all .25s ease-in-out;
+  transform: rotate(0);
+
+  &--show {
+    opacity: 1;
+    transform: rotate(360deg);
+  }
+}
+
+
+
