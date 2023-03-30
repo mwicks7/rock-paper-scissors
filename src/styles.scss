@@ -1,5 +1,9 @@
-$font-size: 18px;
-$line-height: 24px;
+$font-size: 48px;
+$line-height: 58px;
+$app-width: 484px;
+$column-width: $app-width / 2;
+$yellow-light: #fff9a0;
+$yellow-border: #ea8503;
 
 body {
   font-size: $font-size;
@@ -11,6 +15,19 @@ ul {
   padding: 0;
 }
 
+.App {
+  width: $app-width;
+  margin: 0 auto;
+}
+
+.Header {
+
+}
+
+  .Header h1 {
+    font-size: $font-size;
+  }
+
 .Scoreboard {
   margin-bottom: 25px;
 }
@@ -19,15 +36,34 @@ ul {
     margin: 0 auto;
   }
 
+    .Scoreboard th {
+      background: #000000;
+      color: #ffffff;
+    }
+
+    .Scoreboard td {
+      border: 1px solid #000000;
+    }
+
+    .Scoreboard__column {
+      width: $column-width;
+    }
+
     .Scoreboard__score {
       overflow: hidden;
       height: $font-size;
-      width: $font-size;
       position: relative;
+      margin: 0 auto;
     }
 
-      .Scoreboard__next {
+      .Scoreboard__next,
+      .Scoreboard__current {
         position: absolute;
+        width: 100%;
+        text-align: center;
+      }
+
+      .Scoreboard__next {
         bottom: $font-size;
         visibility: hidden;
         
@@ -39,11 +75,10 @@ ul {
       }
 
       .Scoreboard__current {
-        position: absolute;
         bottom: 0;
-        
+
         .Scoreboard__score--update & {
-          transition: bottom .2s;
+          transition: bottom .2s linear;
           bottom: -$font-size;
         }
       }
@@ -51,12 +86,13 @@ ul {
 .Gameboard {
   display: flex;
   flex-direction: row;
-  width: 300px;
+  width: 100%;
+  height: 277px;
   margin: 0 auto;
 }
 
 .Player {
-  width: 100px;
+  flex: 0 0 $column-width;
 }
 
   .Player__avatar {
@@ -69,55 +105,78 @@ ul {
     
     .Player__attack {
       position: absolute;
+      width: $font-size;
+      height: $line-height;
 
       &--is-rock {
         top: 0;
       }
 
       &--is-paper {
-        top: $line-height;
+        top: $line-height + 15px;
       }
 
       &--is-scissor {
-        top: $line-height * 2;
+        top: $line-height * 2 + 30px;
       }
+
       .Player--is-human & {
-        left: 35px;
+        left: 50%;
+        margin-left: -$font-size / 2;
         transition: all .20s ease-in-out;  
       }
 
       .Player--is-robot & {
-        right: 40px;
+        right: 50%;
+        margin-right: -$font-size / 2;
         transition: all .20s ease-in-out;
       }
+
     }
+    
+    .Player--is-human.Player--chose-rock .Player__attack--is-rock,
+    .Player--is-human.Player--chose-paper .Player__attack--is-paper,
+    .Player--is-human.Player--chose-scissor .Player__attack--is-scissor {
+      margin-left: $font-size;  
+      top: $line-height + 15px;
+    }
+    
+    .Player--is-robot.Player--chose-rock .Player__attack--is-rock,
+    .Player--is-robot.Player--chose-paper .Player__attack--is-paper,
+    .Player--is-robot.Player--chose-scissor .Player__attack--is-scissor {
+      margin-right: $font-size;  
+      top: $line-height + 15px;
+    }
+    
+    .Player__card {
+        display: block;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        border-radius: 6px;
+        height: $line-height;
+        font-size: $font-size - 12;
+        line-height: $line-height;
+        
+        .Player--is-human & {
+          background-color: $yellow-light;
+          border: 1px solid $yellow-border;
+        }
 
-      .Player--is-human.Player--chose-rock .Player__attack--is-rock,
-      .Player--is-human.Player--chose-paper .Player__attack--is-paper,
-      .Player--is-human.Player--chose-scissor .Player__attack--is-scissor {
-        left: 70px;  
-        top: $line-height;
+        .Player--is-robot & {
+          background-color: #def7f8;
+          border: 1px solid #00313f;
+        }
       }
-
-      .Player--is-robot.Player--chose-rock .Player__attack--is-rock,
-      .Player--is-robot.Player--chose-paper .Player__attack--is-paper,
-      .Player--is-robot.Player--chose-scissor .Player__attack--is-scissor {
-        right: 75px;  
-        top: $line-height;
-      }
-
-  .player--chose-rock,
-  .player--chose-paper,
-  .player--chose-scissor {
-    position: absolute;
-    transition: position;
-  }
 
 .Outcome {
   opacity: 0;
-  width: 50px;
+  width: 100%;
+  text-align: center;
   transition: all .25s ease-in-out;
   transform: rotate(0);
+  font-style: italic;
 
   &--show {
     opacity: 1;

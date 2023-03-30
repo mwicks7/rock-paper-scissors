@@ -57,17 +57,20 @@ function App() {
 
   return (
     <div className="App">
+      <div className="Header">
+        <h1>Rock, Paper, Scissors!</h1>
+      </div>
       <div className="Scoreboard">
         <table>
           <thead>
             <tr>
-              <th>Humans</th>
-              <th>Robots</th>
+              <th className="Scoreboard__column">Humans</th>
+              <th className="Scoreboard__column">Robots</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>
+              <td className="Scoreboard__column">
                 <div className={`Scoreboard__score ${animateScore === 'humans' && "Scoreboard__score--update"}`}>
                   <div className="Scoreboard__next">
                     {score.humans + 1}
@@ -77,7 +80,7 @@ function App() {
                   </div>
                 </div>
               </td>
-              <td>
+              <td className="Scoreboard__column">
                 <div className={`Scoreboard__score ${animateScore === 'robots' && "Scoreboard__score--update"}`}>
                   <div className="Scoreboard__next">
                     {score.robots + 1}
@@ -97,34 +100,34 @@ function App() {
           <div className="Player__avatar">&#128512;</div>
           <ul className="Player__attacks" >
             <li className="Player__attack Player__attack--is-rock">
-              <button onClick={handleBattle} data-attack="rock">&#9994;</button>
+              <button className="Player__card" onClick={handleBattle} data-attack="rock">&#9994;</button>
             </li>
             <li className="Player__attack Player__attack--is-paper">
-              <button onClick={handleBattle} data-attack="paper">&#9995;</button>
+              <button className="Player__card" onClick={handleBattle} data-attack="paper">&#9995;</button>
             </li>
             <li className="Player__attack Player__attack--is-scissor">
-              <button onClick={handleBattle} data-attack="scissor">&#9996;</button>
+              <button className="Player__card" onClick={handleBattle} data-attack="scissor">&#9996;</button>
             </li>
           </ul>
         </div>
 
-        <div className={`Outcome  ${animateOutcome && "Outcome--show"}`}>{outCome} &#128165;</div>
         
         <div className={`Player Player--is-robot ${robotAttack && "Player--chose-" + robotAttack}`}>
           <div className="Player__avatar">&#129302;</div>
           <ul className="Player__attacks">
             <li className="Player__attack Player__attack--is-rock">
-              <span>&#9994;</span>
+              <span className="Player__card">&#9994;</span>
             </li>
             <li className="Player__attack Player__attack--is-paper">
-              <span>&#9995;</span>
+              <span className="Player__card">&#9995;</span>
             </li>
             <li className="Player__attack Player__attack--is-scissor">
-              <span>&#9996;</span>
+              <span className="Player__card">&#9996;</span>
             </li>
           </ul>
         </div>
       </div>
+      <div className={`Outcome  ${animateOutcome && "Outcome--show"}`}>{outCome} &#128165;</div>
     </div>
   );
 }
