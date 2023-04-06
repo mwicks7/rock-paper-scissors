@@ -162,6 +162,7 @@ ul {
         .Player--is-human & {
           background-color: $yellow-light;
           border: 1px solid $yellow-border;
+          cursor: pointer;
         }
 
         .Player--is-robot & {
