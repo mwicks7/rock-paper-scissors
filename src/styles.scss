@@ -1,7 +1,6 @@
 $font-size: 48px;
 $line-height: 58px;
-$app-width: 484px;
-$column-width: $app-width / 2;
+$app-width: 500px;
 $yellow-light: #fff9a0;
 $yellow-border: #ea8503;
 
@@ -17,6 +16,7 @@ ul {
 
 .App {
   width: $app-width;
+  max-width: 100%;
   margin: 0 auto;
 }
 
@@ -33,7 +33,7 @@ ul {
 }
 
   .Scoreboard table {
-    margin: 0 auto;
+    width: 100%;
   }
 
     .Scoreboard th {
@@ -46,7 +46,7 @@ ul {
     }
 
     .Scoreboard__column {
-      width: $column-width;
+      width: 50%;
     }
 
     .Scoreboard__score {
@@ -92,7 +92,7 @@ ul {
 }
 
 .Player {
-  flex: 0 0 $column-width;
+  flex: 0 0 50%;
 }
 
   .Player__avatar {
@@ -122,13 +122,13 @@ ul {
 
       .Player--is-human & {
         left: 50%;
-        margin-left: -$font-size / 2;
+        margin-left: calc(-1 * $font-size / 2);
         transition: all .20s ease-in-out;  
       }
 
       .Player--is-robot & {
         right: 50%;
-        margin-right: -$font-size / 2;
+        margin-right: calc(-1 * $font-size / 2);
         transition: all .20s ease-in-out;
       }
 
