@@ -27,7 +27,7 @@ function App() {
         humans: humanScore,
         robots: robotScore
       })
-      setAnimateOutcome(false)
+      setAnimateOutcome('')
       setAnimateScore('')
       setHumanAttack('')
       setRobotAttack('')
